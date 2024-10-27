@@ -1,5 +1,6 @@
 package com.lps.back.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,13 +51,12 @@ public class StudentService implements IStudentService {
         return student;
     }
 
+    //getAll para retornar uma lista vazia em vez de lançar uma exceção quando nenhum Student é encontrado. 
+    //Isso facilita o tratamento da resposta na camada de controle, onde um código HTTP apropriado pode ser definido.
     @Override
     public List<Student> getAll() {
         List<Student> students = studentRepository.findAll();
-        if (students == null || students.isEmpty()) {
-            throw new EntityNotFoundException("Students not found");
-        }
-        return students;
+        return students != null ? students : Collections.emptyList();
     }
 
     @Override
